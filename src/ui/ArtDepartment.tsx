@@ -88,51 +88,6 @@ export const ArtDepartment: React.FC<ArtDepartmentProps> = ({ onBack }) => {
           ))}
         </div>
 
-        {/* Official Promotional Poster Feature */}
-        <div style={{
-          margin: '24px auto',
-          padding: '16px',
-          background: 'rgba(12, 18, 28, 0.85)',
-          border: '1px solid #DAA520',
-          borderRadius: '4px',
-          maxWidth: '460px',
-          textAlign: 'center'
-        }}>
-          <h3 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: '16px',
-            color: 'var(--gold-bright, #FFD700)',
-            marginBottom: '10px',
-            letterSpacing: '2px'
-          }}>
-            OFFICIAL PROMO POSTER
-          </h3>
-          <img
-            src="/the_last_seat_poster.jpg"
-            alt="The Last Seat Official Poster"
-            style={{
-              width: '100%',
-              maxHeight: '260px',
-              objectFit: 'cover',
-              borderRadius: '2px',
-              border: '1px solid #3B5373',
-              marginBottom: '12px'
-            }}
-          />
-          <div>
-            <a
-              href="/the_last_seat_poster.jpg"
-              target="_blank"
-              rel="noopener noreferrer"
-              download="the_last_seat_poster.jpg"
-              className="btn-poster"
-              id="btn-art-download-poster"
-            >
-              🖼️ DOWNLOAD POSTER (HD PIXEL ART)
-            </a>
-          </div>
-        </div>
-
         <button className="btn" onClick={() => { Audio.playClick(); onBack(); }} id="btn-back-art">
           BACK
         </button>
