@@ -445,34 +445,42 @@ canvas {
 }
 
 /* ---- Character Select ---- */
+/* ---- Character Select ---- */
 .char-select {
   background: radial-gradient(circle at 50% 30%, rgba(18, 28, 44, 0.6) 0%, rgba(6, 9, 14, 0.98) 85%);
   height: 100vh;
   max-height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: clamp(8px, 1.5vh, 18px) 16px;
+  padding: clamp(8px, 1.6vh, 20px) clamp(12px, 2vw, 24px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Never clip the header */
+  justify-content: flex-start;
   box-sizing: border-box;
 }
 
 .char-select-content {
-  max-width: 860px;
+  max-width: 1100px;
   width: 100%;
   text-align: center;
-  margin: auto 0; /* Auto vertical margin: centers when fitting, scrolls smoothly from top when overflowing */
+  margin: auto 0; /* Vertically centered without clipping the top */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(4px, 1vh, 10px);
+  gap: clamp(6px, 1.2vh, 12px);
+}
+
+.char-select-header-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
 .char-select h2 {
   font-family: var(--font-display);
-  font-size: clamp(18px, 2.6vh, 26px);
+  font-size: clamp(20px, 2.8vh, 28px);
   letter-spacing: 2.5px;
   margin: 0;
   color: var(--cream);
@@ -486,7 +494,6 @@ canvas {
   justify-content: center;
   gap: clamp(6px, 1vw, 10px);
   flex-wrap: wrap;
-  margin-bottom: 2px;
 }
 
 .char-diff-label {
@@ -538,40 +545,40 @@ canvas {
   box-shadow: 0 0 10px rgba(255, 42, 66, 0.4);
 }
 
+/* 6-column grid on desktop: exactly 2 rows of 6 cards! */
 .char-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(6px, 1vw, 10px);
+  grid-template-columns: repeat(6, 1fr);
+  gap: clamp(6px, 1vw, 12px);
   width: 100%;
-  max-width: 860px;
 }
 
 .char-card {
-  border: 1.5px solid #26384C;
-  background: rgba(16, 25, 38, 0.95);
+  border: 1.5px solid #283F5B;
+  background: rgba(14, 22, 34, 0.95);
   border-radius: 6px;
-  padding: clamp(6px, 1vh, 9px) 6px;
+  padding: clamp(6px, 1.1vh, 10px) 6px;
   cursor: pointer;
-  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 3px;
   position: relative;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
 }
 
 .char-card:hover {
   border-color: #00F0FF;
   background: rgba(22, 34, 52, 0.98);
   transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(0, 240, 255, 0.25);
+  box-shadow: 0 5px 16px rgba(0, 240, 255, 0.25);
 }
 
 .char-card.selected {
   border-color: #FFD700;
-  background: rgba(255, 215, 0, 0.12);
-  box-shadow: 0 0 16px rgba(255, 215, 0, 0.35);
+  background: rgba(255, 215, 0, 0.14);
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.4);
   transform: translateY(-2px);
 }
 
@@ -581,31 +588,32 @@ canvas {
 }
 
 .char-card canvas {
-  width: 60px;
-  height: 60px;
+  width: 68px;
+  height: 68px;
   border-radius: 4px;
   background: #0E1622;
   border: 1px solid #1E2D40;
 }
 
 .char-card .char-name {
-  font-size: clamp(10px, 1.2vh, 11px);
+  font-size: clamp(10px, 1.25vh, 11.5px);
   font-weight: 800;
   letter-spacing: 1px;
   color: #FFFFFF;
   text-transform: uppercase;
   margin-top: 1px;
+  white-space: nowrap;
 }
 
 .char-card .char-desc {
-  font-size: clamp(8px, 1vh, 9px);
+  font-size: clamp(8.5px, 1.1vh, 10px);
   color: #BACCDD;
-  line-height: 1.25;
+  line-height: 1.3;
   text-align: center;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  min-height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .char-card .char-rarity {
@@ -626,6 +634,37 @@ canvas {
 .char-rarity.rare { color: #00F0FF; }
 .char-rarity.legendary { color: #FFD700; text-shadow: 0 0 6px rgba(255, 215, 0, 0.6); }
 
+/* Selected character trait callout banner */
+.char-selected-summary {
+  font-family: var(--font-mono);
+  font-size: clamp(10px, 1.3vh, 12px);
+  color: #BACCDD;
+  background: rgba(14, 24, 38, 0.9);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 4px;
+  padding: 5px 16px;
+  width: 100%;
+  max-width: 680px;
+  text-align: center;
+}
+
+.summary-name {
+  color: #FFD700;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.summary-trait {
+  color: #00F0FF;
+  font-style: italic;
+}
+
+.summary-prompt {
+  color: #7E93AB;
+  letter-spacing: 1px;
+  font-size: clamp(9px, 1.15vh, 10.5px);
+}
+
 /* ---- Character Select Action Buttons ---- */
 .char-select-actions {
   display: flex;
@@ -634,7 +673,7 @@ canvas {
   align-items: center;
   width: 100%;
   max-width: 580px;
-  margin: 6px auto 0;
+  margin: 4px auto 0;
 }
 
 .btn-sit-down-large {
@@ -1112,8 +1151,8 @@ canvas {
   }
 
   .char-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
   }
 
   .char-card {
@@ -1121,18 +1160,25 @@ canvas {
   }
 
   .char-card canvas {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
   }
 
   .char-card .char-desc {
-    font-size: 8.5px;
+    font-size: 8px;
     display: block;
+    min-height: auto;
   }
 
   .chair-gallery {
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
+  }
+}
+
+@media (max-width: 900px) {
+  .char-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -1150,18 +1196,21 @@ canvas {
     margin-bottom: 0;
   }
   .char-card {
-    padding: 4px;
+    padding: 5px 3px;
     gap: 2px;
   }
   .char-card canvas {
-    width: 44px;
-    height: 44px;
+    width: 52px;
+    height: 52px;
   }
   .char-card .char-name {
-    font-size: 9.5px;
+    font-size: 10px;
   }
   .char-card .char-desc {
-    display: none;
+    font-size: 8px;
+    display: block;
+    line-height: 1.2;
+    min-height: 20px;
   }
   .char-select-actions {
     margin: 4px auto 0;

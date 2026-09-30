@@ -1,5 +1,5 @@
 // ============================================================
-// CharacterSelect.tsx — Compact, perfectly-proportioned character selection
+// CharacterSelect.tsx — Perfectly balanced sitter selection
 // ============================================================
 
 import React, { useRef, useEffect, useState } from 'react';
@@ -25,7 +25,7 @@ const CharCard: React.FC<{
     const canvas = canvasRef.current;
     if (!canvas) return;
     const dpr = window.devicePixelRatio || 1;
-    const size = 64;
+    const size = 70;
     canvas.width = size * dpr;
     canvas.height = size * dpr;
     const ctx = canvas.getContext('2d')!;
@@ -40,11 +40,11 @@ const CharCard: React.FC<{
 
       // Platform pedestal with cyan neon glow
       ctx.fillStyle = '#22344A';
-      ctx.fillRect(10, 50, 44, 5);
+      ctx.fillRect(11, 54, 48, 5);
       ctx.fillStyle = '#00F0FF';
-      ctx.fillRect(10, 50, 44, 1.2);
+      ctx.fillRect(11, 54, 48, 1.2);
 
-      drawCharacter(ctx, char.id, 32, 42, 30, 'idle', time);
+      drawCharacter(ctx, char.id, 35, 45, 34, 'idle', time);
 
       time += 0.03;
       frame = requestAnimationFrame(draw);
@@ -89,35 +89,39 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
     onSelect(selected);
   };
 
+  const selectedChar = CHARACTERS.find(c => c.id === selected);
+
   return (
     <div className="screen char-select">
       <div className="char-select-content">
-        <h2>CHOOSE YOUR SITTER</h2>
+        <div className="char-select-header-bar">
+          <h2>CHOOSE YOUR SITTER</h2>
 
-        {/* Compact Difficulty Selector Row */}
-        <div className="char-diff-row">
-          <span className="char-diff-label">DIFFICULTY:</span>
-          <button
-            type="button"
-            className={`char-diff-pill diff-easy ${difficulty === 'easy' ? 'active' : ''}`}
-            onClick={() => { Audio.playClick(); onSelectDifficulty('easy'); }}
-          >
-            🟢 EASY (2 Chairs)
-          </button>
-          <button
-            type="button"
-            className={`char-diff-pill diff-medium ${difficulty === 'medium' ? 'active' : ''}`}
-            onClick={() => { Audio.playClick(); onSelectDifficulty('medium'); }}
-          >
-            🟡 MEDIUM (3 Chairs)
-          </button>
-          <button
-            type="button"
-            className={`char-diff-pill diff-deadly ${difficulty === 'deadly' ? 'active' : ''}`}
-            onClick={() => { Audio.playClick(); onSelectDifficulty('deadly'); }}
-          >
-            🔴 DEADLY (4 Chairs)
-          </button>
+          {/* Compact Difficulty Selector Row */}
+          <div className="char-diff-row">
+            <span className="char-diff-label">SURVIVAL ODDS:</span>
+            <button
+              type="button"
+              className={`char-diff-pill diff-easy ${difficulty === 'easy' ? 'active' : ''}`}
+              onClick={() => { Audio.playClick(); onSelectDifficulty('easy'); }}
+            >
+              🟢 EASY (2 Chairs)
+            </button>
+            <button
+              type="button"
+              className={`char-diff-pill diff-medium ${difficulty === 'medium' ? 'active' : ''}`}
+              onClick={() => { Audio.playClick(); onSelectDifficulty('medium'); }}
+            >
+              🟡 MEDIUM (3 Chairs)
+            </button>
+            <button
+              type="button"
+              className={`char-diff-pill diff-deadly ${difficulty === 'deadly' ? 'active' : ''}`}
+              onClick={() => { Audio.playClick(); onSelectDifficulty('deadly'); }}
+            >
+              🔴 DEADLY (4 Chairs)
+            </button>
+          </div>
         </div>
 
         <div className="char-grid">
@@ -129,6 +133,17 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
               onClick={() => handleSelect(char.id)}
             />
           ))}
+        </div>
+
+        {/* Selected character trait callout */}
+        <div className="char-selected-summary">
+          {selectedChar ? (
+            <span>
+              READY: <strong className="summary-name">{selectedChar.name}</strong> • <span className="summary-trait">"{selectedChar.description}"</span>
+            </span>
+          ) : (
+            <span className="summary-prompt">SELECT A SITTER ABOVE TO ENTER THE SUSPENDED BRIDGE</span>
+          )}
         </div>
 
         {/* High-visibility Action Buttons */}
