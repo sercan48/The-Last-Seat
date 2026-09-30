@@ -1075,41 +1075,46 @@ export class GameEngine {
 
     // ---- Left Side: Vertical 12-Tier Bridge Progression Tracker ----
     const trackerX = 18;
-    const trackerY = 66;
-    const tierH = Math.min((h - 150) / TOTAL_ROWS, 36);
-    const trackerW = 56;
+    const trackerY = 64;
+    const trackerW = Math.min(128, Math.max(84, Math.floor(w * 0.12)));
+    const tierH = Math.min((h - 165) / TOTAL_ROWS, 36);
+    const totalTrackerH = TOTAL_ROWS * tierH + 58;
 
     ctx.save();
-    // Background bar with glowing border
-    ctx.fillStyle = 'rgba(10, 18, 30, 0.94)';
-    const totalTrackerH = TOTAL_ROWS * tierH + 34;
+    // Background card with glowing glass aesthetic
+    ctx.fillStyle = 'rgba(9, 15, 26, 0.96)';
     ctx.fillRect(trackerX, trackerY, trackerW, totalTrackerH);
-    ctx.strokeStyle = '#284160';
+    ctx.strokeStyle = '#284466';
     ctx.lineWidth = 1.5;
     ctx.strokeRect(trackerX, trackerY, trackerW, totalTrackerH);
 
-    // Neon gold top accent
+    // Neon gold top banner
     ctx.fillStyle = PAL.goldBright;
-    ctx.fillRect(trackerX, trackerY, trackerW, 2);
+    ctx.fillRect(trackerX, trackerY, trackerW, 3);
 
-    // Top Goal Icon (Throne 👑)
-    ctx.font = '14px serif';
+    // Top Goal Header (Throne 👑)
+    ctx.font = '16px serif';
     ctx.textAlign = 'center';
     ctx.shadowColor = '#FFD700';
-    ctx.shadowBlur = 10;
-    ctx.fillText('👑', trackerX + trackerW / 2, trackerY + 16);
+    ctx.shadowBlur = 12;
+    ctx.fillText('👑', trackerX + trackerW / 2, trackerY + 20);
     ctx.shadowBlur = 0;
 
-    ctx.font = 'bold 8px "IBM Plex Mono", monospace';
-    ctx.fillStyle = PAL.gold;
-    ctx.fillText('THRONE', trackerX + trackerW / 2, trackerY + 26);
+    ctx.font = 'bold 9.5px "IBM Plex Mono", monospace';
+    ctx.fillStyle = PAL.goldBright;
+    ctx.letterSpacing = '1px';
+    ctx.fillText('GOLDEN THRONE', trackerX + trackerW / 2, trackerY + 33);
+
+    ctx.font = '7.5px "IBM Plex Mono", monospace';
+    ctx.fillStyle = '#8CA4BE';
+    ctx.fillText('STAGE 12 GOAL', trackerX + trackerW / 2, trackerY + 43);
 
     // 12 Tier Steps (Row 12 at top, Row 1 at bottom)
     for (let r = 0; r < TOTAL_ROWS; r++) {
       // Step index from bottom to top
       const tierIndex = TOTAL_ROWS - 1 - r;
-      const ty = trackerY + 30 + r * tierH;
-      const blockPadX = 4;
+      const ty = trackerY + 48 + r * tierH;
+      const blockPadX = 5;
       const blockPadY = 2;
       const blockW = trackerW - blockPadX * 2;
       const blockH = tierH - blockPadY * 2;
@@ -1118,8 +1123,8 @@ export class GameEngine {
       const isCurrent = tierIndex === curRow;
 
       if (isCleared) {
-        // Cleared step (Solid Neon Green with bright checkmark and glowing border)
-        ctx.fillStyle = 'rgba(0, 255, 102, 0.22)';
+        // Cleared step (Solid Emerald Neon Green with bold checkmark)
+        ctx.fillStyle = 'rgba(0, 255, 102, 0.18)';
         ctx.fillRect(trackerX + blockPadX, ty, blockW, blockH);
         ctx.strokeStyle = '#00FF66';
         ctx.lineWidth = 1.5;
@@ -1129,40 +1134,40 @@ export class GameEngine {
         ctx.font = 'bold 11px "IBM Plex Mono", monospace';
         ctx.textAlign = 'center';
         ctx.shadowColor = '#00FF66';
-        ctx.shadowBlur = 6;
-        ctx.fillText(`✓ ${String(tierIndex + 1).padStart(2, '0')}`, trackerX + trackerW / 2, ty + blockH * 0.72);
+        ctx.shadowBlur = 8;
+        ctx.fillText(`✓ TIER ${String(tierIndex + 1).padStart(2, '0')}`, trackerX + trackerW / 2, ty + blockH * 0.72);
         ctx.shadowBlur = 0;
       } else if (isCurrent) {
-        // Current step (High-Visibility Pulsing Gold / Amber beacon)
+        // Current step (High-Visibility Pulsing Gold Beacon)
         const pulse = Math.sin(this.gameTime * 7) * 0.25 + 0.75;
-        ctx.fillStyle = `rgba(255, 184, 0, ${pulse * 0.35})`;
+        ctx.fillStyle = `rgba(255, 184, 0, ${pulse * 0.4})`;
         ctx.fillRect(trackerX + blockPadX, ty, blockW, blockH);
-        ctx.strokeStyle = PAL.neonAmber;
+        ctx.strokeStyle = PAL.goldBright;
         ctx.lineWidth = 2;
-        ctx.shadowColor = PAL.neonAmber;
-        ctx.shadowBlur = 10;
+        ctx.shadowColor = PAL.goldBright;
+        ctx.shadowBlur = 12;
         ctx.strokeRect(trackerX + blockPadX, ty, blockW, blockH);
         ctx.shadowBlur = 0;
 
         ctx.fillStyle = '#FFFFFF';
-        ctx.font = 'bold 12px "IBM Plex Mono", monospace';
+        ctx.font = '900 12px "IBM Plex Mono", monospace';
         ctx.textAlign = 'center';
         ctx.shadowColor = PAL.neonAmber;
-        ctx.shadowBlur = 8;
-        ctx.fillText(`► ${String(tierIndex + 1).padStart(2, '0')}`, trackerX + trackerW / 2, ty + blockH * 0.72);
+        ctx.shadowBlur = 10;
+        ctx.fillText(`► TIER ${String(tierIndex + 1).padStart(2, '0')} ◄`, trackerX + trackerW / 2, ty + blockH * 0.72);
         ctx.shadowBlur = 0;
       } else {
         // Future step (Distinct dark metallic slate block with crisp readable numbers)
-        ctx.fillStyle = 'rgba(20, 32, 48, 0.85)';
+        ctx.fillStyle = 'rgba(18, 28, 44, 0.85)';
         ctx.fillRect(trackerX + blockPadX, ty, blockW, blockH);
-        ctx.strokeStyle = '#23374D';
+        ctx.strokeStyle = '#283E58';
         ctx.lineWidth = 1;
         ctx.strokeRect(trackerX + blockPadX, ty, blockW, blockH);
 
-        ctx.fillStyle = '#B4C5D6';
-        ctx.font = 'bold 11px "IBM Plex Mono", monospace';
+        ctx.fillStyle = '#BACCDD';
+        ctx.font = 'bold 10.5px "IBM Plex Mono", monospace';
         ctx.textAlign = 'center';
-        ctx.fillText(`${String(tierIndex + 1).padStart(2, '0')}`, trackerX + trackerW / 2, ty + blockH * 0.72);
+        ctx.fillText(`TIER ${String(tierIndex + 1).padStart(2, '0')}`, trackerX + trackerW / 2, ty + blockH * 0.72);
       }
     }
     ctx.restore();
