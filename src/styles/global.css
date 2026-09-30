@@ -62,11 +62,16 @@ canvas {
 .title-screen {
   background: radial-gradient(circle at 50% 25%, rgba(18, 28, 44, 0.7) 0%, rgba(6, 9, 14, 0.98) 80%);
   text-align: center;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: clamp(16px, 3vh, 32px) clamp(16px, 3vw, 36px);
-  justify-content: flex-start;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden; /* ZERO SCROLLBAR: fits viewport boundaries */
+  height: 100vh;
+  max-height: 100vh;
+  width: 100vw;
+  padding: clamp(8px, 1.6vh, 20px) clamp(16px, 3vw, 36px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; /* Stretches from top border to bottom border */
+  box-sizing: border-box;
 }
 
 .title-bg {
@@ -87,60 +92,68 @@ canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(10px, 1.8vh, 18px);
-  max-width: 760px;
+  justify-content: space-between; /* Distribute elements across full height */
+  height: 100%;
+  max-height: 100%;
+  max-width: 860px;
   width: 100%;
-  margin: auto;
-  padding: 4px 0;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+  gap: clamp(4px, 1vh, 12px);
 }
 
 .title-badge {
   display: inline-block;
-  font-size: 9px;
-  letter-spacing: 3px;
+  font-size: clamp(8px, 1.1vh, 10px);
+  letter-spacing: 2.5px;
   font-weight: 700;
   color: var(--gold-bright, #FFD700);
   background: rgba(218, 165, 32, 0.14);
   border: 1px solid rgba(218, 165, 32, 0.4);
-  padding: 4px 14px;
+  padding: clamp(2px, 0.5vh, 4px) 12px;
   border-radius: 20px;
   text-transform: uppercase;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .title-header {
   font-family: var(--font-display);
-  margin-bottom: 2px;
+  margin: 0;
+  flex-shrink: 0;
 }
 
 .title-header h1 {
-  font-size: clamp(28px, 5.5vw, 54px);
+  font-size: clamp(26px, 4.5vh, 50px);
   font-weight: 900;
   color: var(--cream);
   letter-spacing: 4px;
   line-height: 1.05;
   text-transform: uppercase;
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.9), 0 0 35px rgba(218, 165, 32, 0.25);
+  margin: 0;
 }
 
 .title-header .tagline {
   font-family: var(--font-mono);
-  font-size: clamp(10px, 1.8vw, 13px);
+  font-size: clamp(9px, 1.3vh, 12px);
   color: var(--brass);
-  letter-spacing: 3px;
-  margin-top: 6px;
+  letter-spacing: 2.5px;
+  margin-top: 3px;
   text-transform: uppercase;
 }
 
 .title-visual {
   width: 100%;
-  max-width: 720px;
-  height: clamp(180px, 30vh, 270px);
+  max-width: 820px;
+  flex: 1 1 auto; /* Stretches to fill vertical area between header and controls */
+  min-height: 130px;
+  max-height: 38vh;
   position: relative;
   border: 2px solid #22354A;
   border-radius: 6px;
   overflow: hidden;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), inset 0 0 24px rgba(0, 240, 255, 0.1);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.8), inset 0 0 24px rgba(0, 240, 255, 0.1);
   background: #060A10;
 }
 
@@ -167,20 +180,21 @@ canvas {
 /* ---- Difficulty Selector ---- */
 .difficulty-section {
   width: 100%;
-  max-width: 720px;
-  margin: 2px 0;
+  max-width: 820px;
+  flex-shrink: 0;
+  margin: 0;
 }
 
 .difficulty-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   padding: 0 4px;
 }
 
 .difficulty-label {
-  font-size: 10px;
+  font-size: clamp(9px, 1.2vh, 11px);
   font-weight: 700;
   letter-spacing: 2px;
   color: var(--brass);
@@ -188,7 +202,7 @@ canvas {
 }
 
 .difficulty-sublabel {
-  font-size: 8px;
+  font-size: clamp(7.5px, 1vh, 9px);
   letter-spacing: 1.5px;
   color: var(--warm-gray);
   text-transform: uppercase;
@@ -197,11 +211,11 @@ canvas {
 .difficulty-buttons {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: clamp(6px, 1vw, 12px);
 }
 
 .diff-btn {
-  padding: 10px 12px;
+  padding: clamp(6px, 1vh, 10px) clamp(8px, 1.2vw, 14px);
   font-family: var(--font-mono);
   background: rgba(16, 25, 38, 0.85);
   border: 1.5px solid #223249;
@@ -212,7 +226,7 @@ canvas {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
+  gap: 2px;
   text-align: left;
 }
 
@@ -223,11 +237,11 @@ canvas {
 }
 
 .diff-icon {
-  font-size: 11px;
+  font-size: clamp(10px, 1.3vh, 12px);
 }
 
 .diff-title {
-  font-size: 11px;
+  font-size: clamp(10px, 1.3vh, 12px);
   font-weight: 700;
   letter-spacing: 1.5px;
   color: var(--cream);
@@ -235,13 +249,13 @@ canvas {
 }
 
 .diff-btn .diff-sub {
-  font-size: 9px;
+  font-size: clamp(8px, 1.1vh, 9.5px);
   color: var(--cream);
   opacity: 0.85;
 }
 
 .diff-odds {
-  font-size: 8px;
+  font-size: clamp(7.5px, 1vh, 8.5px);
   color: var(--warm-gray);
   letter-spacing: 0.5px;
 }
@@ -276,17 +290,18 @@ canvas {
 /* ---- Action Buttons Row ---- */
 .title-action-row {
   width: 100%;
-  max-width: 720px;
+  max-width: 820px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 4px;
+  gap: clamp(5px, 0.9vh, 9px);
+  flex-shrink: 0;
+  margin: 0;
 }
 
 .btn-play-large {
   width: 100%;
-  padding: 15px 24px;
-  font-size: 16px;
+  padding: clamp(9px, 1.5vh, 15px) 24px;
+  font-size: clamp(14px, 1.8vh, 18px);
   font-weight: 700;
   letter-spacing: 3px;
   background: linear-gradient(135deg, #8B0022 0%, #B81432 50%, #700018 100%);
@@ -316,13 +331,13 @@ canvas {
 .secondary-buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: clamp(6px, 1vw, 10px);
   width: 100%;
 }
 
 .btn-secondary {
-  padding: 11px 16px;
-  font-size: 11px;
+  padding: clamp(7px, 1.1vh, 11px) 16px;
+  font-size: clamp(10px, 1.3vh, 12px);
   letter-spacing: 1.5px;
   border: 1.5px solid #334A64;
   background: rgba(18, 28, 42, 0.7);
@@ -340,22 +355,23 @@ canvas {
 /* ---- Stats Bar ---- */
 .title-stats-bar {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   justify-content: center;
   flex-wrap: wrap;
   width: 100%;
-  max-width: 720px;
-  margin-top: 2px;
+  max-width: 820px;
+  flex-shrink: 0;
+  margin: 0;
 }
 
 .stat-pill {
   background: rgba(14, 22, 34, 0.85);
   border: 1px solid #223249;
-  padding: 6px 14px;
+  padding: clamp(3px, 0.6vh, 5px) 12px;
   border-radius: 3px;
-  font-size: 10px;
+  font-size: clamp(8px, 1.1vh, 10px);
   display: flex;
-  gap: 6px;
+  gap: 5px;
   color: var(--warm-gray);
 }
 
@@ -371,18 +387,19 @@ canvas {
 
 /* ---- Legal / Fan Art Disclaimer ---- */
 .title-disclaimer {
-  margin-top: 6px;
-  padding: 8px 14px;
-  font-size: 9px;
-  line-height: 1.4;
+  padding: clamp(4px, 0.7vh, 8px) 14px;
+  font-size: clamp(8px, 1.1vh, 9.5px);
+  line-height: 1.35;
   color: #8C98A8;
   background: rgba(8, 14, 22, 0.85);
   border: 1px solid rgba(0, 240, 255, 0.2);
   border-radius: 4px;
-  max-width: 720px;
+  max-width: 820px;
   width: 100%;
   text-align: center;
   letter-spacing: 0.3px;
+  flex-shrink: 0;
+  margin: 0;
 }
 
 .title-disclaimer a {

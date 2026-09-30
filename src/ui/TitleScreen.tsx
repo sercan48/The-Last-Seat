@@ -32,13 +32,21 @@ export const TitleScreen: React.FC<TitleScreenProps> = ({
     if (!canvas) return;
 
     const dpr = window.devicePixelRatio || 1;
-    const W = 480;
-    const H = 240;
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
+    let W = 480;
+    let H = 240;
     const ctx = canvas.getContext('2d')!;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    (ctx as any).imageSmoothingEnabled = false;
+
+    const updateSize = () => {
+      const rect = canvas.getBoundingClientRect();
+      W = Math.max(320, Math.round(rect.width));
+      H = Math.max(130, Math.round(rect.height));
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      (ctx as any).imageSmoothingEnabled = false;
+    };
+    updateSize();
+    window.addEventListener('resize', updateSize);
 
     let animFrame = 0;
     let time = 0;
@@ -197,7 +205,10 @@ export const TitleScreen: React.FC<TitleScreenProps> = ({
     }
 
     draw();
-    return () => cancelAnimationFrame(animFrame);
+    return () => {
+      window.removeEventListener('resize', updateSize);
+      cancelAnimationFrame(animFrame);
+    };
   }, []);
 
   return (
