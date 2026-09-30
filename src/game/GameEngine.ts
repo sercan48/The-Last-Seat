@@ -410,15 +410,24 @@ export class GameEngine {
 
       case 'VICTORY_ANIMATION':
         this.victoryTimer += dt;
-        if (this.victoryTimer > 0.5 && this.victoryTimer < 3.0) {
-          if (Math.random() > 0.7) {
+        if (this.victoryTimer > 0.3 && this.victoryTimer < 5.2) {
+          // Continuous raining gold & festive confetti
+          if (Math.random() > 0.45) {
             this.spawnGoldConfetti(
-              this.canvasWidth * 0.2 + Math.random() * this.canvasWidth * 0.6,
-              this.canvasHeight * 0.3 + Math.random() * this.canvasHeight * 0.2
+              Math.random() * this.canvasWidth,
+              -5
             );
           }
+          // Periodic multi-color fireworks bursting
+          if (Math.random() > 0.92) {
+            this.spawnFirework(
+              this.canvasWidth * 0.15 + Math.random() * this.canvasWidth * 0.7,
+              this.canvasHeight * 0.12 + Math.random() * this.canvasHeight * 0.38
+            );
+            Audio.playBridgeStep();
+          }
         }
-        if (this.victoryTimer > 4.0) {
+        if (this.victoryTimer > 5.5) {
           Audio.playVictory();
           this.endRun(true);
         }
@@ -1128,51 +1137,119 @@ export class GameEngine {
   private renderVictoryThrone(ctx: CanvasRenderingContext2D, w: number, h: number) {
     const fadeIn = Math.min(this.victoryTimer / 1.0, 1);
 
-    // Warm golden victory spotlight
-    const halo = ctx.createRadialGradient(w / 2, h * 0.45, 20, w / 2, h * 0.45, w * 0.5);
-    halo.addColorStop(0, 'rgba(255, 215, 0, 0.35)');
-    halo.addColorStop(0.7, 'rgba(128, 0, 32, 0.15)');
-    halo.addColorStop(1, 'rgba(8, 12, 20, 0.9)');
+    // Warm golden victory spotlight halo
+    const halo = ctx.createRadialGradient(w / 2, h * 0.45, 20, w / 2, h * 0.45, w * 0.6);
+    halo.addColorStop(0, 'rgba(255, 215, 0, 0.42)');
+    halo.addColorStop(0.45, 'rgba(218, 165, 32, 0.22)');
+    halo.addColorStop(0.75, 'rgba(128, 0, 32, 0.2)');
+    halo.addColorStop(1, 'rgba(6, 10, 18, 0.95)');
     ctx.fillStyle = halo;
     ctx.fillRect(0, 0, w, h);
+
+    // Dynamic sweeping celebration spotlights criss-crossing over throne
+    ctx.save();
+    const spotTime = this.gameTime * 2.2;
+    const beam1X = w / 2 + Math.sin(spotTime) * (w * 0.28);
+    const beam2X = w / 2 - Math.sin(spotTime * 0.75) * (w * 0.28);
+
+    // Left Spotlight (Gold)
+    const gradBeam1 = ctx.createRadialGradient(beam1X, h * 0.55, 10, w * 0.1, 0, w * 0.75);
+    gradBeam1.addColorStop(0, 'rgba(255, 215, 0, 0.25)');
+    gradBeam1.addColorStop(1, 'rgba(255, 215, 0, 0)');
+    ctx.fillStyle = gradBeam1;
+    ctx.beginPath();
+    ctx.moveTo(w * 0.1, 0);
+    ctx.lineTo(beam1X - 70, h * 0.75);
+    ctx.lineTo(beam1X + 70, h * 0.75);
+    ctx.closePath();
+    ctx.fill();
+
+    // Right Spotlight (Cyan neon)
+    const gradBeam2 = ctx.createRadialGradient(beam2X, h * 0.55, 10, w * 0.9, 0, w * 0.75);
+    gradBeam2.addColorStop(0, 'rgba(0, 240, 255, 0.25)');
+    gradBeam2.addColorStop(1, 'rgba(0, 240, 255, 0)');
+    ctx.fillStyle = gradBeam2;
+    ctx.beginPath();
+    ctx.moveTo(w * 0.9, 0);
+    ctx.lineTo(beam2X - 70, h * 0.75);
+    ctx.lineTo(beam2X + 70, h * 0.75);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
 
     // Giant Golden Throne Platform
     const platY = h * 0.62;
     ctx.fillStyle = '#2A1A08';
-    ctx.fillRect(w * 0.25, platY, w * 0.5, 24);
+    ctx.fillRect(w * 0.2, platY, w * 0.6, 26);
     ctx.fillStyle = PAL.gold;
-    ctx.fillRect(w * 0.25, platY, w * 0.5, 4);
+    ctx.fillRect(w * 0.2, platY, w * 0.6, 5);
 
     // Grand Throne
     const throneSize = Math.min(w * 0.35, 180);
     const throneY = platY - throneSize * 0.4;
+
+    // Golden sunburst rays radiating behind throne
+    ctx.save();
+    ctx.translate(w / 2, throneY);
+    ctx.rotate(this.gameTime * 0.35);
+    const rayCount = 16;
+    for (let r = 0; r < rayCount; r++) {
+      ctx.rotate((Math.PI * 2) / rayCount);
+      ctx.fillStyle = 'rgba(255, 215, 0, 0.08)';
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(-throneSize * 0.18, -throneSize * 1.3);
+      ctx.lineTo(throneSize * 0.18, -throneSize * 1.3);
+      ctx.closePath();
+      ctx.fill();
+    }
+    ctx.restore();
+
     drawChair(ctx, 'throne', 'gold', w / 2, throneY, throneSize, 0, false, 0, fadeIn, PAL.dangerRed);
 
     // Character seated triumphantly
-    if (this.state.selectedCharacter && this.victoryTimer > 1.2) {
-      const charSize = throneSize * 0.42;
+    if (this.state.selectedCharacter && this.victoryTimer > 0.8) {
+      const charSize = throneSize * 0.44;
+      const charY = throneY - throneSize * 0.08;
       drawCharacter(
         ctx,
         this.state.selectedCharacter,
         w / 2,
-        throneY - throneSize * 0.08,
+        charY,
         charSize,
         'victory',
         this.gameTime
       );
+
+      // Floating celebratory Crown over avatar
+      const crownBounce = Math.sin(this.gameTime * 4) * 5;
+      ctx.font = `${Math.round(charSize * 0.55)}px serif`;
+      ctx.textAlign = 'center';
+      ctx.shadowColor = '#FFD700';
+      ctx.shadowBlur = 18;
+      ctx.fillText('👑', w / 2, charY - charSize * 0.55 + crownBounce);
+      ctx.shadowBlur = 0;
     }
 
-    // Victory Banner
-    if (this.victoryTimer > 1.8) {
+    // Victory Banner with pulsing glow
+    if (this.victoryTimer > 1.2) {
       ctx.save();
-      ctx.fillStyle = PAL.goldBright;
-      ctx.font = 'bold 32px "Playfair Display", serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('SURVIVED THE LAST SEAT', w / 2, h * 0.22);
+      const bannerPulse = 1 + Math.sin(this.gameTime * 3) * 0.03;
+      ctx.translate(w / 2, h * 0.20);
+      ctx.scale(bannerPulse, bannerPulse);
+      ctx.shadowColor = 'rgba(255, 215, 0, 0.85)';
+      ctx.shadowBlur = 24;
 
+      ctx.fillStyle = PAL.goldBright;
+      ctx.font = '900 32px "Playfair Display", serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('👑 THE LAST SEAT CONQUERED! 👑', 0, 0);
+
+      ctx.shadowBlur = 0;
       ctx.fillStyle = PAL.cream;
-      ctx.font = '14px "IBM Plex Mono", monospace';
-      ctx.fillText('ALL 12 PERILOUS STEPS CONQUERED. THE THRONE IS YOURS.', w / 2, h * 0.22 + 30);
+      ctx.font = '700 14px "IBM Plex Mono", monospace';
+      ctx.letterSpacing = '2px';
+      ctx.fillText('ALL 12 PERILOUS STEPS CONQUERED. THE THRONE IS YOURS.', 0, 32);
       ctx.restore();
     }
   }
@@ -1334,6 +1411,28 @@ export class GameEngine {
         type: 'confetti',
         rotation: Math.random() * Math.PI * 2,
         rotationSpeed: (Math.random() - 0.5) * 6,
+      });
+    }
+  }
+
+  private spawnFirework(x: number, y: number) {
+    const colors = [PAL.goldBright, PAL.neonAmber, '#FF0055', '#00F0FF', '#00FF66', '#FFFFFF'];
+    const count = 30;
+    for (let i = 0; i < count; i++) {
+      const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.25;
+      const speed = 70 + Math.random() * 150;
+      this.state.particles.push({
+        x,
+        y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 25,
+        life: 1.2 + Math.random() * 0.6,
+        maxLife: 1.8,
+        size: 3 + Math.random() * 3,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        type: 'spark',
+        rotation: 0,
+        rotationSpeed: 0,
       });
     }
   }
