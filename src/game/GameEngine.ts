@@ -1075,59 +1075,94 @@ export class GameEngine {
 
     // ---- Left Side: Vertical 12-Tier Bridge Progression Tracker ----
     const trackerX = 18;
-    const trackerY = 70;
-    const tierH = Math.min((h - 140) / TOTAL_ROWS, 28);
-    const trackerW = 32;
+    const trackerY = 66;
+    const tierH = Math.min((h - 150) / TOTAL_ROWS, 36);
+    const trackerW = 56;
 
     ctx.save();
-    // Background bar
-    ctx.fillStyle = 'rgba(10, 16, 26, 0.85)';
-    ctx.fillRect(trackerX, trackerY, trackerW, TOTAL_ROWS * tierH + 24);
-    ctx.strokeStyle = PAL.steelHighlight;
-    ctx.lineWidth = 1;
-    ctx.strokeRect(trackerX, trackerY, trackerW, TOTAL_ROWS * tierH + 24);
+    // Background bar with glowing border
+    ctx.fillStyle = 'rgba(10, 18, 30, 0.94)';
+    const totalTrackerH = TOTAL_ROWS * tierH + 34;
+    ctx.fillRect(trackerX, trackerY, trackerW, totalTrackerH);
+    ctx.strokeStyle = '#284160';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(trackerX, trackerY, trackerW, totalTrackerH);
+
+    // Neon gold top accent
+    ctx.fillStyle = PAL.goldBright;
+    ctx.fillRect(trackerX, trackerY, trackerW, 2);
 
     // Top Goal Icon (Throne 👑)
-    ctx.fillStyle = PAL.goldBright;
-    ctx.font = '12px "IBM Plex Mono", monospace';
+    ctx.font = '14px serif';
     ctx.textAlign = 'center';
+    ctx.shadowColor = '#FFD700';
+    ctx.shadowBlur = 10;
     ctx.fillText('👑', trackerX + trackerW / 2, trackerY + 16);
+    ctx.shadowBlur = 0;
+
+    ctx.font = 'bold 8px "IBM Plex Mono", monospace';
+    ctx.fillStyle = PAL.gold;
+    ctx.fillText('THRONE', trackerX + trackerW / 2, trackerY + 26);
 
     // 12 Tier Steps (Row 12 at top, Row 1 at bottom)
     for (let r = 0; r < TOTAL_ROWS; r++) {
       // Step index from bottom to top
       const tierIndex = TOTAL_ROWS - 1 - r;
-      const ty = trackerY + 22 + r * tierH;
+      const ty = trackerY + 30 + r * tierH;
+      const blockPadX = 4;
+      const blockPadY = 2;
+      const blockW = trackerW - blockPadX * 2;
+      const blockH = tierH - blockPadY * 2;
 
       const isCleared = tierIndex < curRow;
       const isCurrent = tierIndex === curRow;
 
       if (isCleared) {
-        // Cleared step (Solid Neon Green)
-        ctx.fillStyle = 'rgba(0, 255, 102, 0.25)';
-        ctx.fillRect(trackerX + 3, ty + 2, trackerW - 6, tierH - 4);
-        ctx.fillStyle = PAL.neonGreen;
-        ctx.font = 'bold 9px "IBM Plex Mono", monospace';
-        ctx.fillText('✓', trackerX + trackerW / 2, ty + tierH - 6);
-      } else if (isCurrent) {
-        // Current step (Pulsing Amber/Cyan Beacon)
-        const pulse = Math.sin(this.gameTime * 6) * 0.3 + 0.7;
-        ctx.fillStyle = `rgba(255, 184, 0, ${pulse * 0.4})`;
-        ctx.fillRect(trackerX + 2, ty + 1, trackerW - 4, tierH - 2);
-        ctx.strokeStyle = PAL.neonAmber;
+        // Cleared step (Solid Neon Green with bright checkmark and glowing border)
+        ctx.fillStyle = 'rgba(0, 255, 102, 0.22)';
+        ctx.fillRect(trackerX + blockPadX, ty, blockW, blockH);
+        ctx.strokeStyle = '#00FF66';
         ctx.lineWidth = 1.5;
-        ctx.strokeRect(trackerX + 2, ty + 1, trackerW - 4, tierH - 2);
+        ctx.strokeRect(trackerX + blockPadX, ty, blockW, blockH);
 
-        ctx.fillStyle = PAL.neonAmber;
-        ctx.font = 'bold 9px "IBM Plex Mono", monospace';
-        ctx.fillText(`►${tierIndex + 1}`, trackerX + trackerW / 2, ty + tierH - 6);
+        ctx.fillStyle = '#00FF66';
+        ctx.font = 'bold 11px "IBM Plex Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.shadowColor = '#00FF66';
+        ctx.shadowBlur = 6;
+        ctx.fillText(`✓ ${String(tierIndex + 1).padStart(2, '0')}`, trackerX + trackerW / 2, ty + blockH * 0.72);
+        ctx.shadowBlur = 0;
+      } else if (isCurrent) {
+        // Current step (High-Visibility Pulsing Gold / Amber beacon)
+        const pulse = Math.sin(this.gameTime * 7) * 0.25 + 0.75;
+        ctx.fillStyle = `rgba(255, 184, 0, ${pulse * 0.35})`;
+        ctx.fillRect(trackerX + blockPadX, ty, blockW, blockH);
+        ctx.strokeStyle = PAL.neonAmber;
+        ctx.lineWidth = 2;
+        ctx.shadowColor = PAL.neonAmber;
+        ctx.shadowBlur = 10;
+        ctx.strokeRect(trackerX + blockPadX, ty, blockW, blockH);
+        ctx.shadowBlur = 0;
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 12px "IBM Plex Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.shadowColor = PAL.neonAmber;
+        ctx.shadowBlur = 8;
+        ctx.fillText(`► ${String(tierIndex + 1).padStart(2, '0')}`, trackerX + trackerW / 2, ty + blockH * 0.72);
+        ctx.shadowBlur = 0;
       } else {
-        // Future step (Dim outline)
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
-        ctx.fillRect(trackerX + 4, ty + 3, trackerW - 8, tierH - 6);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-        ctx.font = '8px "IBM Plex Mono", monospace';
-        ctx.fillText(`${tierIndex + 1}`, trackerX + trackerW / 2, ty + tierH - 7);
+        // Future step (Distinct dark metallic slate block with crisp readable numbers)
+        ctx.fillStyle = 'rgba(20, 32, 48, 0.85)';
+        ctx.fillRect(trackerX + blockPadX, ty, blockW, blockH);
+        ctx.strokeStyle = '#23374D';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(trackerX + blockPadX, ty, blockW, blockH);
+
+        ctx.fillStyle = '#B4C5D6';
+        ctx.font = 'bold 11px "IBM Plex Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(`${String(tierIndex + 1).padStart(2, '0')}`, trackerX + trackerW / 2, ty + blockH * 0.72);
       }
     }
     ctx.restore();
