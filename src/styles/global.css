@@ -357,65 +357,91 @@ canvas {
 /* ---- Stats Bar ---- */
 .title-stats-bar {
   display: flex;
-  gap: 8px;
+  gap: clamp(8px, 1.2vw, 16px);
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
   width: 100%;
-  max-width: 820px;
+  max-width: 860px;
   flex-shrink: 0;
-  margin: 0;
+  margin: 2px auto 0;
 }
 
 .stat-pill {
-  background: rgba(14, 22, 34, 0.85);
-  border: 1px solid #223249;
-  padding: clamp(3px, 0.6vh, 5px) 12px;
-  border-radius: 3px;
-  font-size: clamp(8px, 1.1vh, 10px);
+  background: rgba(14, 24, 38, 0.95);
+  border: 1.5px solid #2B415C;
+  padding: clamp(6px, 1vh, 9px) clamp(12px, 1.4vw, 18px);
+  border-radius: 5px;
   display: flex;
-  gap: 5px;
-  color: var(--warm-gray);
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
+}
+
+.stat-pill:hover {
+  border-color: #00F0FF;
+  transform: translateY(-1px);
 }
 
 .stat-pill .label {
-  font-weight: 500;
-  letter-spacing: 1px;
+  font-family: var(--font-mono);
+  font-size: clamp(10.5px, 1.3vh, 12px);
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  color: #9DB3CC;
+  text-transform: uppercase;
 }
 
 .stat-pill .val {
+  font-family: var(--font-mono);
+  font-size: clamp(13px, 1.6vh, 16px);
   color: #00F0FF;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
 }
 
 /* ---- Legal / Fan Art Disclaimer ---- */
 .title-disclaimer {
-  padding: clamp(4px, 0.7vh, 8px) 14px;
-  font-size: clamp(8px, 1.1vh, 9.5px);
-  line-height: 1.35;
-  color: #8C98A8;
-  background: rgba(8, 14, 22, 0.85);
-  border: 1px solid rgba(0, 240, 255, 0.2);
-  border-radius: 4px;
-  max-width: 820px;
+  padding: clamp(8px, 1.2vh, 12px) clamp(16px, 2vw, 24px);
+  font-family: var(--font-mono);
+  font-size: clamp(11.5px, 1.45vh, 13px);
+  line-height: 1.5;
+  color: #C3D1E0;
+  background: rgba(10, 16, 26, 0.94);
+  border: 1.5px solid rgba(0, 240, 255, 0.35);
+  border-radius: 6px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+  max-width: 860px;
   width: 100%;
   text-align: center;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.5px;
   flex-shrink: 0;
-  margin: 0;
+  margin: 2px auto 0;
+}
+
+.title-disclaimer strong {
+  color: #FFD700;
+  font-weight: 700;
+  letter-spacing: 0.8px;
 }
 
 .title-disclaimer a {
   color: #00F0FF;
   text-decoration: none;
-  font-weight: bold;
-  border-bottom: 1px dotted #00F0FF;
-  transition: color 0.15s, border-color 0.15s;
+  font-size: clamp(12px, 1.5vh, 13.5px);
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  border-bottom: 1.5px solid #00F0FF;
+  padding-bottom: 1px;
+  transition: all 0.15s ease;
 }
 
 .title-disclaimer a:hover {
   color: #FFB800;
   border-color: #FFB800;
-  text-shadow: 0 0 8px rgba(255, 184, 0, 0.5);
+  text-shadow: 0 0 12px rgba(255, 184, 0, 0.8);
 }
 
 /* ---- Character Select ---- */

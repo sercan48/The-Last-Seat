@@ -313,16 +313,16 @@ export const TitleScreen: React.FC<TitleScreenProps> = ({
         </div>
 
         {/* Player Stats Record */}
-        {stats.runs > 0 && (
-          <div className="title-stats-bar">
-            <div className="stat-pill"><span className="label">RUNS</span><span className="val">{stats.runs}</span></div>
-            <div className="stat-pill"><span className="label">WINS</span><span className="val">{stats.wins}</span></div>
-            <div className="stat-pill"><span className="label">BEST ROW</span><span className="val">{stats.bestRow}/12</span></div>
-            {stats.fastestWin !== null && (
-              <div className="stat-pill"><span className="label">BEST TIME</span><span className="val">{stats.fastestWin.toFixed(2)}s</span></div>
-            )}
-          </div>
-        )}
+        <div className="title-stats-bar">
+          <div className="stat-pill"><span className="label">RUNS</span><span className="val">{stats.runs}</span></div>
+          <div className="stat-pill"><span className="label">WINS</span><span className="val">{stats.wins}</span></div>
+          <div className="stat-pill"><span className="label">BEST ROW</span><span className="val">{stats.bestRow}/12</span></div>
+          {stats.fastestWin !== null ? (
+            <div className="stat-pill"><span className="label">BEST TIME</span><span className="val">{stats.fastestWin.toFixed(2)}s</span></div>
+          ) : (
+            <div className="stat-pill"><span className="label">WIN RATE</span><span className="val">{stats.runs > 0 ? Math.round((stats.wins / stats.runs) * 100) + '%' : '0%'}</span></div>
+          )}
+        </div>
 
         {/* Legal Disclaimer */}
         <div className="title-disclaimer">
