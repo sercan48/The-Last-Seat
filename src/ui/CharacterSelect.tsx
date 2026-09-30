@@ -1,5 +1,5 @@
 // ============================================================
-// CharacterSelect.tsx — Character selection with card presentation
+// CharacterSelect.tsx — Compact, perfectly-proportioned character selection
 // ============================================================
 
 import React, { useRef, useEffect, useState } from 'react';
@@ -25,7 +25,7 @@ const CharCard: React.FC<{
     const canvas = canvasRef.current;
     if (!canvas) return;
     const dpr = window.devicePixelRatio || 1;
-    const size = 88;
+    const size = 64;
     canvas.width = size * dpr;
     canvas.height = size * dpr;
     const ctx = canvas.getContext('2d')!;
@@ -35,16 +35,16 @@ const CharCard: React.FC<{
     let frame = 0;
     let time = 0;
     function draw() {
-      ctx.fillStyle = '#141D2A';
+      ctx.fillStyle = '#121B27';
       ctx.fillRect(0, 0, size, size);
 
       // Platform pedestal with cyan neon glow
       ctx.fillStyle = '#22344A';
-      ctx.fillRect(16, 68, 56, 6);
+      ctx.fillRect(10, 50, 44, 5);
       ctx.fillStyle = '#00F0FF';
-      ctx.fillRect(16, 68, 56, 1.5);
+      ctx.fillRect(10, 50, 44, 1.2);
 
-      drawCharacter(ctx, char.id, 44, 56, 42, 'idle', time);
+      drawCharacter(ctx, char.id, 32, 42, 30, 'idle', time);
 
       time += 0.03;
       frame = requestAnimationFrame(draw);
@@ -94,44 +94,30 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
       <div className="char-select-content">
         <h2>CHOOSE YOUR SITTER</h2>
 
-        {/* Difficulty Selection */}
-        <div className="difficulty-section" style={{ margin: '0 auto 16px' }}>
-          <span className="difficulty-label">DIFFICULTY LEVEL</span>
-          <div className="difficulty-buttons">
-            <button
-              type="button"
-              className={`diff-btn diff-easy ${difficulty === 'easy' ? 'active' : ''}`}
-              onClick={() => { Audio.playClick(); onSelectDifficulty('easy'); }}
-            >
-              <div className="diff-top">
-                <span className="diff-icon">🟢</span>
-                <span className="diff-title">EASY</span>
-              </div>
-              <span className="diff-sub">2 Chairs Per Row</span>
-            </button>
-            <button
-              type="button"
-              className={`diff-btn diff-medium ${difficulty === 'medium' ? 'active' : ''}`}
-              onClick={() => { Audio.playClick(); onSelectDifficulty('medium'); }}
-            >
-              <div className="diff-top">
-                <span className="diff-icon">🟡</span>
-                <span className="diff-title">MEDIUM</span>
-              </div>
-              <span className="diff-sub">3 Chairs Per Row</span>
-            </button>
-            <button
-              type="button"
-              className={`diff-btn diff-deadly ${difficulty === 'deadly' ? 'active' : ''}`}
-              onClick={() => { Audio.playClick(); onSelectDifficulty('deadly'); }}
-            >
-              <div className="diff-top">
-                <span className="diff-icon">🔴</span>
-                <span className="diff-title">DEADLY</span>
-              </div>
-              <span className="diff-sub">4 Chairs Per Row</span>
-            </button>
-          </div>
+        {/* Compact Difficulty Selector Row */}
+        <div className="char-diff-row">
+          <span className="char-diff-label">DIFFICULTY:</span>
+          <button
+            type="button"
+            className={`char-diff-pill diff-easy ${difficulty === 'easy' ? 'active' : ''}`}
+            onClick={() => { Audio.playClick(); onSelectDifficulty('easy'); }}
+          >
+            🟢 EASY (2 Chairs)
+          </button>
+          <button
+            type="button"
+            className={`char-diff-pill diff-medium ${difficulty === 'medium' ? 'active' : ''}`}
+            onClick={() => { Audio.playClick(); onSelectDifficulty('medium'); }}
+          >
+            🟡 MEDIUM (3 Chairs)
+          </button>
+          <button
+            type="button"
+            className={`char-diff-pill diff-deadly ${difficulty === 'deadly' ? 'active' : ''}`}
+            onClick={() => { Audio.playClick(); onSelectDifficulty('deadly'); }}
+          >
+            🔴 DEADLY (4 Chairs)
+          </button>
         </div>
 
         <div className="char-grid">

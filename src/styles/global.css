@@ -446,132 +446,210 @@ canvas {
 
 /* ---- Character Select ---- */
 .char-select {
-  background: var(--bg);
+  background: radial-gradient(circle at 50% 30%, rgba(18, 28, 44, 0.6) 0%, rgba(6, 9, 14, 0.98) 85%);
+  height: 100vh;
+  max-height: 100vh;
   overflow-y: auto;
-  padding: 20px;
+  overflow-x: hidden;
+  padding: clamp(8px, 1.5vh, 18px) 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Never clip the header */
+  box-sizing: border-box;
 }
 
 .char-select-content {
-  max-width: 960px;
+  max-width: 860px;
   width: 100%;
   text-align: center;
+  margin: auto 0; /* Auto vertical margin: centers when fitting, scrolls smoothly from top when overflowing */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(4px, 1vh, 10px);
 }
 
 .char-select h2 {
   font-family: var(--font-display);
-  font-size: clamp(22px, 4vw, 34px);
-  letter-spacing: 3px;
-  margin-bottom: 16px;
+  font-size: clamp(18px, 2.6vh, 26px);
+  letter-spacing: 2.5px;
+  margin: 0;
   color: var(--cream);
   text-shadow: 0 0 16px rgba(255, 215, 0, 0.25);
 }
 
+/* Compact Difficulty Selector Row */
+.char-diff-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(6px, 1vw, 10px);
+  flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+
+.char-diff-label {
+  font-family: var(--font-mono);
+  font-size: clamp(9px, 1.2vh, 10.5px);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--warm-gray);
+  text-transform: uppercase;
+}
+
+.char-diff-pill {
+  font-family: var(--font-mono);
+  font-size: clamp(9px, 1.2vh, 10.5px);
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: rgba(16, 25, 38, 0.85);
+  border: 1.5px solid #223249;
+  color: #BACCDD;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.char-diff-pill:hover {
+  border-color: #00F0FF;
+  color: #FFF;
+}
+
+.char-diff-pill.active.diff-easy {
+  border-color: #00FF66;
+  background: rgba(0, 255, 102, 0.18);
+  color: #00FF66;
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
+}
+
+.char-diff-pill.active.diff-medium {
+  border-color: #00F0FF;
+  background: rgba(0, 240, 255, 0.18);
+  color: #00F0FF;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+.char-diff-pill.active.diff-deadly {
+  border-color: #FF2A42;
+  background: rgba(255, 42, 66, 0.22);
+  color: #FF2A42;
+  box-shadow: 0 0 10px rgba(255, 42, 66, 0.4);
+}
+
 .char-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-  gap: 16px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(6px, 1vw, 10px);
+  width: 100%;
+  max-width: 860px;
 }
 
 .char-card {
-  border: 2px solid #283A4E;
-  background: rgba(18, 28, 42, 0.95);
+  border: 1.5px solid #26384C;
+  background: rgba(16, 25, 38, 0.95);
   border-radius: 6px;
-  padding: 16px 12px;
+  padding: clamp(6px, 1vh, 9px) 6px;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 3px;
   position: relative;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .char-card:hover {
   border-color: #00F0FF;
-  background: rgba(24, 38, 56, 0.98);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0, 240, 255, 0.2);
+  background: rgba(22, 34, 52, 0.98);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 240, 255, 0.25);
 }
 
 .char-card.selected {
   border-color: #FFD700;
   background: rgba(255, 215, 0, 0.12);
-  box-shadow: 0 0 24px rgba(255, 215, 0, 0.35);
-  transform: translateY(-3px);
+  box-shadow: 0 0 16px rgba(255, 215, 0, 0.35);
+  transform: translateY(-2px);
 }
 
 .char-card:focus-visible {
   outline: 2px solid #FFD700;
-  outline-offset: 3px;
+  outline-offset: 2px;
 }
 
 .char-card canvas {
-  width: 88px;
-  height: 88px;
+  width: 60px;
+  height: 60px;
   border-radius: 4px;
   background: #0E1622;
   border: 1px solid #1E2D40;
 }
 
 .char-card .char-name {
-  font-size: 13px;
+  font-size: clamp(10px, 1.2vh, 11px);
   font-weight: 800;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   color: #FFFFFF;
   text-transform: uppercase;
+  margin-top: 1px;
 }
 
 .char-card .char-desc {
-  font-size: 11px;
+  font-size: clamp(8px, 1vh, 9px);
   color: #BACCDD;
-  line-height: 1.45;
+  line-height: 1.25;
   text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .char-card .char-rarity {
   position: absolute;
-  top: 6px;
-  right: 6px;
-  font-size: 8px;
+  top: 3px;
+  right: 3px;
+  font-size: 7px;
   font-weight: 700;
-  letter-spacing: 1.2px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
-  padding: 2px 6px;
-  border-radius: 3px;
-  background: rgba(0, 0, 0, 0.4);
+  padding: 1px 4px;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .char-rarity.common { color: #A0B2C6; }
 .char-rarity.uncommon { color: #00FF66; }
 .char-rarity.rare { color: #00F0FF; }
-.char-rarity.legendary { color: #FFD700; text-shadow: 0 0 8px rgba(255, 215, 0, 0.6); }
+.char-rarity.legendary { color: #FFD700; text-shadow: 0 0 6px rgba(255, 215, 0, 0.6); }
 
 /* ---- Character Select Action Buttons ---- */
 .char-select-actions {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 640px;
-  margin: 10px auto 16px;
+  max-width: 580px;
+  margin: 6px auto 0;
 }
 
 .btn-sit-down-large {
   flex: 2;
-  padding: 15px 28px;
+  padding: clamp(9px, 1.3vh, 13px) 20px;
   font-family: var(--font-mono);
-  font-size: 15px;
+  font-size: clamp(12.5px, 1.5vh, 14.5px);
   font-weight: 800;
-  letter-spacing: 2px;
+  letter-spacing: 1.8px;
   text-transform: uppercase;
   background: linear-gradient(135deg, #9C0829 0%, #C9173E 50%, #80001B 100%);
   border: 2px solid #FFD700;
   color: #FFFFFF;
-  border-radius: 6px;
-  box-shadow: 0 4px 20px rgba(201, 23, 62, 0.45), 0 0 12px rgba(255, 215, 0, 0.2);
+  border-radius: 5px;
+  box-shadow: 0 4px 16px rgba(201, 23, 62, 0.45), 0 0 10px rgba(255, 215, 0, 0.2);
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
@@ -581,8 +659,8 @@ canvas {
 }
 
 .btn-sit-down-large:hover:not(:disabled) {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 8px 28px rgba(201, 23, 62, 0.6), 0 0 18px rgba(255, 215, 0, 0.4);
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 6px 20px rgba(201, 23, 62, 0.6), 0 0 14px rgba(255, 215, 0, 0.4);
   background: linear-gradient(135deg, #B50D33 0%, #E31B47 50%, #940021 100%);
 }
 
@@ -594,16 +672,16 @@ canvas {
 
 .btn-char-back {
   flex: 1;
-  padding: 15px 20px;
+  padding: clamp(9px, 1.3vh, 13px) 16px;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: clamp(11px, 1.3vh, 12.5px);
   font-weight: 700;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
   background: rgba(20, 32, 48, 0.9);
   border: 2px solid #3E5676;
   color: #D2DEED;
-  border-radius: 6px;
+  border-radius: 5px;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
@@ -616,7 +694,7 @@ canvas {
   border-color: #00F0FF;
   color: #FFFFFF;
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 240, 255, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 240, 255, 0.25);
 }
 
 /* ---- Game Canvas Container ---- */
@@ -1035,21 +1113,63 @@ canvas {
 
   .char-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 8px;
   }
 
   .char-card {
-    padding: 12px 8px;
+    padding: 6px 4px;
+  }
+
+  .char-card canvas {
+    width: 48px;
+    height: 48px;
   }
 
   .char-card .char-desc {
-    font-size: 10px;
+    font-size: 8.5px;
     display: block;
   }
 
   .chair-gallery {
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
+  }
+}
+
+@media (max-height: 720px) {
+  .char-select {
+    padding: 6px 12px;
+  }
+  .char-select-content {
+    gap: 4px;
+  }
+  .char-select h2 {
+    font-size: 18px;
+  }
+  .char-diff-row {
+    margin-bottom: 0;
+  }
+  .char-card {
+    padding: 4px;
+    gap: 2px;
+  }
+  .char-card canvas {
+    width: 44px;
+    height: 44px;
+  }
+  .char-card .char-name {
+    font-size: 9.5px;
+  }
+  .char-card .char-desc {
+    display: none;
+  }
+  .char-select-actions {
+    margin: 4px auto 0;
+  }
+  .btn-sit-down-large,
+  .btn-char-back {
+    padding: 7px 14px;
+    font-size: 12px;
   }
 }
 
