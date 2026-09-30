@@ -25,8 +25,9 @@ const CharCard: React.FC<{
     const canvas = canvasRef.current;
     if (!canvas) return;
     const dpr = window.devicePixelRatio || 1;
-    canvas.width = 64 * dpr;
-    canvas.height = 64 * dpr;
+    const size = 88;
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
     const ctx = canvas.getContext('2d')!;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     (ctx as any).imageSmoothingEnabled = false;
@@ -34,14 +35,16 @@ const CharCard: React.FC<{
     let frame = 0;
     let time = 0;
     function draw() {
-      ctx.fillStyle = '#2A2218';
-      ctx.fillRect(0, 0, 64, 64);
+      ctx.fillStyle = '#141D2A';
+      ctx.fillRect(0, 0, size, size);
 
-      // Platform
-      ctx.fillStyle = '#4A3728';
-      ctx.fillRect(12, 50, 40, 4);
+      // Platform pedestal with cyan neon glow
+      ctx.fillStyle = '#22344A';
+      ctx.fillRect(16, 68, 56, 6);
+      ctx.fillStyle = '#00F0FF';
+      ctx.fillRect(16, 68, 56, 1.5);
 
-      drawCharacter(ctx, char.id, 32, 42, 28, selected ? 'idle' : 'idle', time);
+      drawCharacter(ctx, char.id, 44, 56, 42, 'idle', time);
 
       time += 0.03;
       frame = requestAnimationFrame(draw);
@@ -100,24 +103,33 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
               className={`diff-btn diff-easy ${difficulty === 'easy' ? 'active' : ''}`}
               onClick={() => { Audio.playClick(); onSelectDifficulty('easy'); }}
             >
-              <span>🟢 EASY</span>
-              <span className="diff-sub">2 Chairs</span>
+              <div className="diff-top">
+                <span className="diff-icon">🟢</span>
+                <span className="diff-title">EASY</span>
+              </div>
+              <span className="diff-sub">2 Chairs Per Row</span>
             </button>
             <button
               type="button"
               className={`diff-btn diff-medium ${difficulty === 'medium' ? 'active' : ''}`}
               onClick={() => { Audio.playClick(); onSelectDifficulty('medium'); }}
             >
-              <span>🟡 MEDIUM</span>
-              <span className="diff-sub">3 Chairs</span>
+              <div className="diff-top">
+                <span className="diff-icon">🟡</span>
+                <span className="diff-title">MEDIUM</span>
+              </div>
+              <span className="diff-sub">3 Chairs Per Row</span>
             </button>
             <button
               type="button"
               className={`diff-btn diff-deadly ${difficulty === 'deadly' ? 'active' : ''}`}
               onClick={() => { Audio.playClick(); onSelectDifficulty('deadly'); }}
             >
-              <span>🔴 DEADLY</span>
-              <span className="diff-sub">4 Chairs</span>
+              <div className="diff-top">
+                <span className="diff-icon">🔴</span>
+                <span className="diff-title">DEADLY</span>
+              </div>
+              <span className="diff-sub">4 Chairs Per Row</span>
             </button>
           </div>
         </div>
@@ -132,18 +144,24 @@ export const CharacterSelect: React.FC<CharacterSelectProps> = ({
             />
           ))}
         </div>
-        <div className="title-buttons" style={{ margin: '0 auto' }}>
+
+        {/* High-visibility Action Buttons */}
+        <div className="char-select-actions">
           <button
-            className="btn btn-primary"
+            className="btn btn-sit-down-large"
             onClick={handleConfirm}
             disabled={!selected}
-            style={{ opacity: selected ? 1 : 0.4 }}
             id="btn-sit-down"
+            style={{ opacity: selected ? 1 : 0.45 }}
           >
-            SIT DOWN
+            🪑 SIT DOWN & START TRIAL
           </button>
-          <button className="btn btn-small" onClick={() => { Audio.playClick(); onBack(); }} id="btn-back-title">
-            BACK
+          <button
+            className="btn btn-char-back"
+            onClick={() => { Audio.playClick(); onBack(); }}
+            id="btn-back-title"
+          >
+            ◄ BACK TO TITLE
           </button>
         </div>
       </div>

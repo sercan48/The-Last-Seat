@@ -85,22 +85,24 @@ export const TitleScreen: React.FC<TitleScreenProps> = ({
       }
       c.strokeRect(0, 36, W, 2);
 
+      const cx = W / 2;
+
       // Suspension bridge heavy cables running from high ceiling to throne
       c.strokeStyle = '#34475E';
       c.lineWidth = 2.5;
       c.beginPath();
-      c.moveTo(20, 10);
-      c.quadraticCurveTo(120, 90, 240, 48);
+      c.moveTo(15, 10);
+      c.quadraticCurveTo(cx * 0.4, H * 0.35, cx, Math.round(H * 0.2));
       c.stroke();
       c.beginPath();
-      c.moveTo(W - 20, 10);
-      c.quadraticCurveTo(W - 120, 90, 240, 48);
+      c.moveTo(W - 15, 10);
+      c.quadraticCurveTo(W - cx * 0.4, H * 0.35, cx, Math.round(H * 0.2));
       c.stroke();
       c.restore();
 
       // Distant Golden Throne Platform (The Endgame)
-      const throneX = 240;
-      const throneY = 48;
+      const throneX = cx;
+      const throneY = Math.round(H * 0.2);
       // Golden halo
       const throneGlow = c.createRadialGradient(throneX, throneY, 6, throneX, throneY, 70);
       throneGlow.addColorStop(0, 'rgba(255, 215, 0, 0.4)');
@@ -123,13 +125,15 @@ export const TitleScreen: React.FC<TitleScreenProps> = ({
       c.restore();
 
       // Miniature Golden Throne waiting at the end
-      drawChair(c, 'throne', 'gold', throneX, throneY, 30, 0, false, 0, 0.85, '#FF0055');
+      drawChair(c, 'throne', 'gold', throneX, throneY, 32, 0, false, 0, 0.85, '#FF0055');
 
-      // Volumetric Spotlights shining onto 3 suspended bridge chairs
+      // Volumetric Spotlights shining onto 3 suspended bridge chairs (Symmetrically Centered)
+      const spotSpread = Math.min(160, W * 0.26);
+      const spotY = Math.round(H * 0.52);
       const spotConfigs = [
-        { x: 120, y: 130, type: 'executive' as const, mat: 'leather' as const, size: 44, color: '#DAA520' },
-        { x: 240, y: 122, type: 'velvet' as const, mat: 'velvet' as const, size: 48, color: '#FF0055' },
-        { x: 360, y: 130, type: 'office' as const, mat: 'metal' as const, size: 44, color: '#00F0FF' },
+        { x: cx - spotSpread, y: spotY + 5, type: 'executive' as const, mat: 'leather' as const, size: 44, color: '#DAA520' },
+        { x: cx, y: spotY, type: 'velvet' as const, mat: 'velvet' as const, size: 48, color: '#FF0055' },
+        { x: cx + spotSpread, y: spotY + 5, type: 'office' as const, mat: 'metal' as const, size: 44, color: '#00F0FF' },
       ];
 
       for (let i = 0; i < spotConfigs.length; i++) {
@@ -160,21 +164,23 @@ export const TitleScreen: React.FC<TitleScreenProps> = ({
         drawChair(c, spot.type, spot.mat, spot.x, spot.y + floatY, spot.size, i, false, 0, 0, spot.color);
       }
 
-      // Foreground Launch Platform (Bottom)
-      const launchY = 188;
+      // Foreground Launch Platform (Bottom, Centered)
+      const launchY = Math.round(H * 0.77);
+      const platW = Math.min(W * 0.88, 620);
+      const platX = cx - platW / 2;
       const platGrad = c.createLinearGradient(0, launchY, 0, H);
       platGrad.addColorStop(0, '#1E2C3F');
       platGrad.addColorStop(0.3, '#141E2C');
       platGrad.addColorStop(1, '#090E16');
       c.fillStyle = platGrad;
-      c.fillRect(30, launchY, W - 60, 52);
+      c.fillRect(platX, launchY, platW, H - launchY);
 
       // Warning hazard stripes on launch edge
       c.fillStyle = '#FFB800';
-      c.fillRect(30, launchY - 3, W - 60, 3);
+      c.fillRect(platX, launchY - 3, platW, 3);
 
-      // Player character standing at platform edge looking forward
-      drawCharacter(c, 'suit', 240, launchY - 16, 42, 'idle', time);
+      // Player character standing at platform edge looking forward (Centered at cx)
+      drawCharacter(c, 'suit', cx, launchY - 18, 44, 'idle', time);
 
       // Floating dust particles
       c.fillStyle = '#A0E6FF';
@@ -191,14 +197,14 @@ export const TitleScreen: React.FC<TitleScreenProps> = ({
 
       // Illuminated Title Card Badge in top corner
       c.fillStyle = 'rgba(10, 18, 30, 0.85)';
-      c.fillRect(20, 10, 120, 18);
+      c.fillRect(16, 10, 130, 20);
       c.strokeStyle = '#00F0FF';
       c.lineWidth = 1;
-      c.strokeRect(20, 10, 120, 18);
+      c.strokeRect(16, 10, 130, 20);
       c.fillStyle = '#00F0FF';
       c.font = 'bold 8px "IBM Plex Mono", monospace';
       c.textAlign = 'center';
-      c.fillText('PERILOUS TRIAL ARENA', 80, 22);
+      c.fillText('PERILOUS TRIAL ARENA', 81, 23);
 
       time += 0.016;
       animFrame = requestAnimationFrame(draw);
