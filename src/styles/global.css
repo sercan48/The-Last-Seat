@@ -452,7 +452,7 @@ canvas {
   max-height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: clamp(10px, 2vh, 24px) clamp(16px, 2vw, 32px);
+  padding: clamp(12px, 2.2vh, 28px) clamp(16px, 2vw, 36px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -461,27 +461,27 @@ canvas {
 }
 
 .char-select-content {
-  max-width: 1220px;
+  max-width: 1320px;
   width: 100%;
   text-align: center;
   margin: auto 0; /* Vertically centered without clipping the top */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(8px, 1.6vh, 16px);
+  gap: clamp(8px, 1.8vh, 18px);
 }
 
 .char-select-header-bar {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .char-select h2 {
   font-family: var(--font-display);
-  font-size: clamp(22px, 3.2vh, 32px);
-  letter-spacing: 3px;
+  font-size: clamp(24px, 3.4vh, 34px);
+  letter-spacing: 3.5px;
   margin: 0;
   color: var(--cream);
   text-shadow: 0 0 16px rgba(255, 215, 0, 0.25);
@@ -498,7 +498,7 @@ canvas {
 
 .char-diff-label {
   font-family: var(--font-mono);
-  font-size: clamp(10px, 1.3vh, 11.5px);
+  font-size: clamp(10.5px, 1.35vh, 12px);
   font-weight: 700;
   letter-spacing: 1.5px;
   color: var(--warm-gray);
@@ -507,10 +507,10 @@ canvas {
 
 .char-diff-pill {
   font-family: var(--font-mono);
-  font-size: clamp(10px, 1.35vh, 12px);
+  font-size: clamp(10.5px, 1.4vh, 12.5px);
   font-weight: 600;
   letter-spacing: 0.8px;
-  padding: 5px 14px;
+  padding: 6px 16px;
   border-radius: 4px;
   background: rgba(16, 25, 38, 0.85);
   border: 1.5px solid #223249;
@@ -549,22 +549,22 @@ canvas {
 .char-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: clamp(8px, 1.2vw, 14px);
+  gap: clamp(10px, 1.4vw, 16px);
   width: 100%;
-  max-width: 1220px;
+  max-width: 1320px;
 }
 
 .char-card {
   border: 1.5px solid #283F5B;
   background: rgba(14, 22, 34, 0.95);
   border-radius: 8px;
-  padding: clamp(10px, 1.5vh, 15px) clamp(6px, 0.8vw, 10px);
+  padding: clamp(12px, 1.8vh, 18px) clamp(8px, 1vw, 12px);
   cursor: pointer;
   transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(4px, 0.7vh, 6px);
+  gap: clamp(5px, 0.9vh, 8px);
   position: relative;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
 }
@@ -589,29 +589,29 @@ canvas {
 }
 
 .char-card canvas {
-  width: clamp(76px, 10vh, 90px);
-  height: clamp(76px, 10vh, 90px);
+  width: clamp(84px, 12vh, 108px);
+  height: clamp(84px, 12vh, 108px);
   border-radius: 6px;
   background: #0E1622;
   border: 1px solid #1E2D40;
 }
 
 .char-card .char-name {
-  font-size: clamp(11px, 1.45vh, 13px);
+  font-size: clamp(11.5px, 1.55vh, 13.5px);
   font-weight: 800;
   letter-spacing: 1.2px;
   color: #FFFFFF;
   text-transform: uppercase;
-  margin-top: 2px;
+  margin-top: 3px;
   white-space: nowrap;
 }
 
 .char-card .char-desc {
-  font-size: clamp(9.5px, 1.25vh, 11px);
+  font-size: clamp(10px, 1.3vh, 11.5px);
   color: #BACCDD;
   line-height: 1.35;
   text-align: center;
-  min-height: 32px;
+  min-height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -619,13 +619,13 @@ canvas {
 
 .char-card .char-rarity {
   position: absolute;
-  top: 4px;
-  right: 4px;
-  font-size: 8px;
+  top: 5px;
+  right: 5px;
+  font-size: 8.5px;
   font-weight: 700;
   letter-spacing: 0.8px;
   text-transform: uppercase;
-  padding: 2px 5px;
+  padding: 2px 6px;
   border-radius: 3px;
   background: rgba(0, 0, 0, 0.6);
 }
@@ -638,14 +638,14 @@ canvas {
 /* Selected character trait callout banner */
 .char-selected-summary {
   font-family: var(--font-mono);
-  font-size: clamp(11px, 1.4vh, 13px);
+  font-size: clamp(11.5px, 1.45vh, 13.5px);
   color: #BACCDD;
   background: rgba(14, 24, 38, 0.9);
   border: 1px solid rgba(0, 240, 255, 0.3);
   border-radius: 4px;
-  padding: 7px 20px;
+  padding: 8px 24px;
   width: 100%;
-  max-width: 760px;
+  max-width: 820px;
   text-align: center;
 }
 
@@ -663,25 +663,25 @@ canvas {
 .summary-prompt {
   color: #7E93AB;
   letter-spacing: 1px;
-  font-size: clamp(9.5px, 1.2vh, 11px);
+  font-size: clamp(10px, 1.25vh, 11.5px);
 }
 
 /* ---- Character Select Action Buttons ---- */
 .char-select-actions {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 640px;
-  margin: 4px auto 0;
+  max-width: 660px;
+  margin: 6px auto 0;
 }
 
 .btn-sit-down-large {
   flex: 2;
-  padding: clamp(11px, 1.6vh, 16px) 24px;
+  padding: clamp(12px, 1.8vh, 18px) 28px;
   font-family: var(--font-mono);
-  font-size: clamp(13px, 1.65vh, 15px);
+  font-size: clamp(13.5px, 1.7vh, 16px);
   font-weight: 800;
   letter-spacing: 1.8px;
   text-transform: uppercase;
@@ -712,9 +712,9 @@ canvas {
 
 .btn-char-back {
   flex: 1;
-  padding: clamp(11px, 1.6vh, 16px) 20px;
+  padding: clamp(12px, 1.8vh, 18px) 22px;
   font-family: var(--font-mono);
-  font-size: clamp(12px, 1.45vh, 13.5px);
+  font-size: clamp(12px, 1.5vh, 14px);
   font-weight: 700;
   letter-spacing: 1.2px;
   text-transform: uppercase;

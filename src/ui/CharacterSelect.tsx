@@ -25,7 +25,7 @@ const CharCard: React.FC<{
     const canvas = canvasRef.current;
     if (!canvas) return;
     const dpr = window.devicePixelRatio || 1;
-    const size = 90;
+    const size = 110;
     canvas.width = size * dpr;
     canvas.height = size * dpr;
     const ctx = canvas.getContext('2d')!;
@@ -40,11 +40,11 @@ const CharCard: React.FC<{
 
       // Platform pedestal with cyan neon glow
       ctx.fillStyle = '#22344A';
-      ctx.fillRect(15, 71, 60, 6);
+      ctx.fillRect(16, 86, 78, 7);
       ctx.fillStyle = '#00F0FF';
-      ctx.fillRect(15, 71, 60, 1.5);
+      ctx.fillRect(16, 86, 78, 2);
 
-      drawCharacter(ctx, char.id, 45, 52, 42, 'idle', time);
+      drawCharacter(ctx, char.id, 55, 56, 56, 'idle', time);
 
       time += 0.03;
       frame = requestAnimationFrame(draw);
